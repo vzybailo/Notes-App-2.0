@@ -1,30 +1,33 @@
 <template>
   <div  id="app">
-    <input @click="changeMode" type="checkbox">
-    <h1>{{title}}</h1>
-        <div v-if="errorMessage" class="error">{{errorMessage}}</div>
-        <div class="new__note">
-            <input v-model="note.title" type="text" class="new__title">
-            <input v-model="note.description" type="desc" class="new__desc">
-            <button @click="addNote" class="new__btn">add note</button>
-        </div>
-        <ul>
-            <li v-for="(note, index) in notes" :key="index">
-                <h4>{{note.title}}</h4>
-                <div>{{note.description}}</div>
-                <div>{{note.date}}</div>
+    <h1>{{title}}</h1>  
+        <errorMessage :errorMessage="errorMessage"/>  
+        <newNote 
+          @store="addNote"
+        />
+        <h2>{{ titleNotes }}</h2>
+        <ul class="notes__list">
+            <li v-for="(note, index) in notes" :key="index" class="notes__item">
+                <h4 class="notes__title">{{note.title}}</h4>
+                <div class="notes__desc">{{note.description}}</div>
+                <div class="notes__date">{{note.date}}</div>
             </li>
         </ul>
   </div>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
+import errorMessage from './components/ErrorMessage.vue'
+import newNote from './components/NewNote.vue'
 
 export default {
+  components: {
+    errorMessage, newNote
+  },
   data () {
     return {
       title: 'Notes',
+      titleNotes: 'Notes list',
       errorMessage: null,
       notes: [
           {
@@ -43,42 +46,41 @@ export default {
               date: new Date(Date.now()).toLocaleString()
           }
       ],
-      note: {
-          title: '',
-          description: ''
-      }
     }
   },
   methods: {
-    addNote () {
-        let {title, description} = this.note
-
+    addNote (title, descr) {
         if(title === "") {
-            this.errorMessage = 'need title'
+            this.errorMessage = 'Title required'
             return false                                        
         }
 
         this.notes.push({
-            title, 
-            description,
+             title, 
+             descr,
             date: new Date(Date.now()).toLocaleString()
         })
-        this.note.title = ""
-        this.note.description = ""
+        title = ""
+        descr = ""
         this.errorMessage = null
     },
-    changeMode () {
-      
-    }
 }
 }
 </script>
 
-<style>
+<style lang="scss">
 body {
   margin: 0;
   padding: 0;
 } 
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+h4 {
+  margin: 0;
+}
 .wrapper {
   display: flex;
   align-items: center;
@@ -89,11 +91,77 @@ body {
   background-color: #1f2029;
 }
 #app {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 1200px;
   margin: 0 auto;
   color: #A9A9A9;
+}
+ul.notes__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+li.notes__item {
+    padding: 15px 25px;
+    background-color: #f5fbfb;
+    border-radius: 10px;
+    box-shadow: 4px 4px 3px 0 #5a5858;
+    transition: .3s;
+    &:hover {
+      transform: translate(3px, 3px);
+      transition: .3s;
+    }
+}
+.notes__title, .notes__desc {
+    color: #1f2029;
+}
+.notes__title {
+  margin-bottom: 10px;
+}
+.notes__desc {
+  margin-bottom: 15px;
+}
+.new__note {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 40px;
+}
+.new__desc, .new__title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
+  outline: none;
+  resize: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  padding: 15px;
+  transition: .3s;
+  &:focus::placeholder {
+    color: transparent;
+    transition: .3s;
+  }
+}
+.new__desc {
+  margin-bottom: 25px;
+}
+button.new__btn {
+    width: 50%;
+    margin: auto;
+    border: none;
+    padding: 10px 0;
+    cursor: pointer;
+    border-radius: 10px;
+    text-transform: uppercase;
+    transition: .3s;
+    background-color: #e5e524;
+    &:hover {
+      background-color: rgb(47, 226, 71);
+      transform: translate(3px, 3px);
+      transition: .3s;
+    }
 }
 </style>
