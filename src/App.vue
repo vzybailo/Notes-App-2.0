@@ -1,16 +1,16 @@
 <template>
   <div  id="app">
-    <h1>{{title}}</h1>  
-        <errorMessage :errorMessage="errorMessage"/>  
-        <newNote 
-         :note="note"
-          @store="addNote"
-        />
-        <h2>{{ titleNotes }}</h2>
-        <notesList 
-          @removeNote="removeNote"
-          :notes="notes"
-        />
+    <h1>{{title}}</h1>
+        <errorMessage :errorMessage="errorMessage"/>
+        <newNote :note="note" @store="addNote"/>
+        <div class="notes__header">
+          <h2>{{ titleNotes }}</h2>
+          <div class="notes__icons">
+            <svg :class="{active: grid}" @click="grid=true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <svg :class="{active: !grid}" @click="grid=false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg>
+          </div>
+        </div>
+        <notesList @removeNote="removeNote" :notes="notes" :grid="grid"/>
   </div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
       title: 'Notes',
       titleNotes: 'Notes list',
       errorMessage: null,
+      grid: true,
       notes: [
           {
               title: "First note",
@@ -54,10 +55,10 @@ export default {
   methods: {
     addNote (note) {
       let {title, descr} = note
-      
+
         if(title === "") {
             this.errorMessage = 'Title required'
-            return false                                        
+            return false
         }
 
         this.notes.push({
@@ -67,8 +68,8 @@ export default {
         })
         this.errorMessage = null
     },
-    removeNote() {
-      this.notes.splice(2)
+    removeNote(index) {
+      this.notes.splice(index, 1)
     }
 }
 }
@@ -78,7 +79,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-} 
+}
 ul{
   list-style: none;
   margin: 0;
@@ -101,7 +102,7 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1200px;
+  width: 1000px;
   margin: 0 auto;
   color: #A9A9A9;
 }
@@ -110,6 +111,9 @@ ul.notes__list {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     width: 100%;
+    &.full {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 li.notes__item {
     padding: 15px 25px;
@@ -125,6 +129,8 @@ li.notes__item {
 .notes__header {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    align-items: baseline;
 }
 .notes__delete {
   cursor: pointer;
@@ -176,5 +182,15 @@ button.new__btn {
       transform: translate(3px, 3px);
       transition: .3s;
     }
+}
+svg {
+  cursor: pointer;
+  margin-right: 15px;
+  &.active {
+    color: yellow;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
 }
 </style>
