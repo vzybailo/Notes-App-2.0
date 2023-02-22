@@ -3,13 +3,17 @@
     <h1>{{title}}</h1>  
         <errorMessage :errorMessage="errorMessage"/>  
         <newNote 
+         :note="note"
           @store="addNote"
         />
         <h2>{{ titleNotes }}</h2>
         <ul class="notes__list">
             <li v-for="(note, index) in notes" :key="index" class="notes__item">
-                <h4 class="notes__title">{{note.title}}</h4>
-                <div class="notes__desc">{{note.description}}</div>
+                <div class="notes__header">
+                  <h4 class="notes__title">{{note.title}}</h4>
+                  <div @click="removeNote" class="notes__delete">x</div>
+                </div>
+                <div class="notes__desc">{{note.descr}}</div>
                 <div class="notes__date">{{note.date}}</div>
             </li>
         </ul>
@@ -32,38 +36,45 @@ export default {
       notes: [
           {
               title: "First note",
-              description: 'desc about first note',
+              descr: 'desc about first note',
               date: new Date(Date.now()).toLocaleString()
           },
           {
               title: "Second note",
-              description: 'desc about first note',
+              descr: 'desc about first note',
               date: new Date(Date.now()).toLocaleString()
           },
           {
               title: "Third note",
-              description: 'desc about first note',
+              descr: 'desc about first note',
               date: new Date(Date.now()).toLocaleString()
           }
       ],
+      note: {
+        title: '',
+        descr: ''
+      }
     }
   },
   methods: {
-    addNote (title, descr) {
+    addNote (note) {
+      let {title, descr} = note
+      
         if(title === "") {
             this.errorMessage = 'Title required'
             return false                                        
         }
 
         this.notes.push({
-             title, 
+             title,
              descr,
-            date: new Date(Date.now()).toLocaleString()
+             date: new Date(Date.now()).toLocaleString()
         })
-        title = ""
-        descr = ""
         this.errorMessage = null
     },
+    removeNote() {
+      this.notes.splice(2)
+    }
 }
 }
 </script>
@@ -115,6 +126,13 @@ li.notes__item {
       transform: translate(3px, 3px);
       transition: .3s;
     }
+}
+.notes__header {
+    display: flex;
+    justify-content: space-between;
+}
+.notes__delete {
+  cursor: pointer;
 }
 .notes__title, .notes__desc {
     color: #1f2029;

@@ -8,15 +8,23 @@
 
 <script>
 export default {
+    props: {
+      note: {
+        type: Object,
+        required: true
+      }
+    },
     data() {
         return {
-            title: "", 
-            descr: "", 
+            title: this.note.title, 
+            descr: this.note.descr, 
         };
   },
   methods: {
     addNote() {
-      this.$emit("store", this.title, this.descr);
+      this.$emit("store", {title: this.title, descr: this.descr});
+      this.title = ''
+      this.descr = ''
     },
   },
 };
