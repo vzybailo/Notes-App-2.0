@@ -6,11 +6,19 @@
          :note="note"
           @store="addNote"
         />
-        <h2>{{ titleNotes }}</h2>
-        <notesList 
-          @removeNote="removeNote"
-          :notes="notes"
-        />
+        <div class="notes__preheader">
+          <h2>{{ titleNotes }}</h2>
+          <searchNote :value="search" @search="search = $event"/>
+          <div class="notes__views">
+            <svg :class="{ active: grid}"  @click="grid = true" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <svg :class="{ active: !grid}" @click="grid = false" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg>
+          </div>
+        </div>
+          <notesList 
+            @removeNote="removeNote"
+            :notes="notesFilter"
+            :grid="grid"
+          />
   </div>
 </template>
 
@@ -18,37 +26,59 @@
 import errorMessage from './components/ErrorMessage.vue'
 import newNote from './components/NewNote.vue'
 import notesList from './components/NotesList.vue'
+import searchNote from './components/SearchNote.vue'
 
 export default {
   components: {
-    errorMessage, newNote, notesList
+    errorMessage, newNote, notesList, searchNote
   },
   data () {
     return {
       title: 'Notes',
       titleNotes: 'Notes list',
+      placeholder: '',
+      search: '',
+      grid: true,
       errorMessage: null,
       notes: [
           {
               title: "First note",
               descr: 'desc about first note',
-              date: new Date(Date.now()).toLocaleString()
+              date: new Date(Date.now()).toLocaleString(),
+              edit: false
           },
           {
               title: "Second note",
               descr: 'desc about first note',
-              date: new Date(Date.now()).toLocaleString()
+              date: new Date(Date.now()).toLocaleString(),
+              edit: false
           },
           {
               title: "Third note",
               descr: 'desc about first note',
-              date: new Date(Date.now()).toLocaleString()
+              date: new Date(Date.now()).toLocaleString(),
+              edit: false
           }
       ],
       note: {
         title: '',
         descr: ''
       }
+    }
+  },
+  computed: {
+    notesFilter() {
+      let array = this.notes
+      let search = this.search
+
+        if(!search) return array
+        search = search.trim().toLowerCase()
+        array = array.filter(function(item) {
+          if(item.title.toLowerCase().indexOf(search) !== -1) {
+            return item
+          }
+        })
+        return array
     }
   },
   methods: {
@@ -67,9 +97,9 @@ export default {
         })
         this.errorMessage = null
     },
-    removeNote() {
-      this.notes.splice(2)
-    }
+    removeNote(index) {
+      this.notes.splice(index, 1)
+    },
 }
 }
 </script>
@@ -101,43 +131,11 @@ h4 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 1200px;
+  width: 850px;
   margin: 0 auto;
   color: #A9A9A9;
 }
-ul.notes__list {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    width: 100%;
-}
-li.notes__item {
-    padding: 15px 25px;
-    background-color: #f5fbfb;
-    border-radius: 10px;
-    box-shadow: 4px 4px 3px 0 #5a5858;
-    transition: .3s;
-    &:hover {
-      transform: translate(3px, 3px);
-      transition: .3s;
-    }
-}
-.notes__header {
-    display: flex;
-    justify-content: space-between;
-}
-.notes__delete {
-  cursor: pointer;
-}
-.notes__title, .notes__desc {
-    color: #1f2029;
-}
-.notes__title {
-  margin-bottom: 10px;
-}
-.notes__desc {
-  margin-bottom: 15px;
-}
+
 .new__note {
     display: flex;
     flex-direction: column;
@@ -176,5 +174,13 @@ button.new__btn {
       transform: translate(3px, 3px);
       transition: .3s;
     }
+} 
+svg {
+  transition: .5s;
+  margin-right: 10px;
+  &.active {
+    color: #e5e524;
+    transition: .5s
+  }
 }
 </style>
