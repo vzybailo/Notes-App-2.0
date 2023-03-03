@@ -1,9 +1,9 @@
 <template>
-    <ul :class="{full: !grid}" class="notes__list">
-        <li v-for="(note, index) in notes" :key="index" class="notes__item">
+    <ul  class="notes__list">
+        <li v-for="(note, index) in notes" :key="index" class="notes__item" :class="{full: !grid}">
             <div class="notes__header">
                 <div class="notes__title">
-                    <h4 @click="editTitle(note, index)" v-if="!note.edit" class="notes__name">{{note.title}}</h4>
+                    <h4 @click="editTitle(index, note)" v-if="!note.edit" class="notes__name">{{note.title}}</h4>
                     <input 
                         class="edit__input" 
                         type="text" 
@@ -36,6 +36,7 @@ export default {
     },
     data() {
         return {
+            editing: false,
             cachedTitle: '',
         }
     },
@@ -44,17 +45,16 @@ export default {
             this.$emit('removeNote', index)
         },
         editTitle(note) {
-            this.cachedTitle = note.title
             note.edit = true
-            this.note.edit = true
+            console.log(note.edit)
         },
-        saveTitle(note) {
-            note.edit = false
-        },
-        cancelSave(note) {
-            note.title = this.cachedTitle
-            note.edit = false
-        }
+        // saveTitle(note) {
+        //     note.edit = false
+        // },
+        // cancelSave(note) {
+        //     note.title = this.cachedTitle
+        //     note.edit = false
+        // }
     }
 };
 </script>
@@ -69,20 +69,23 @@ export default {
   border-bottom: 1px solid;
 }
 ul.notes__list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    &.full {
-      grid-template-columns: repeat(1, 1fr);
-    }
+   
 }
 li.notes__item {
     padding: 15px 25px;
+    width: 40%;
+    margin: 15px;
     background-color: #f5fbfb;
     border-radius: 10px;
     box-shadow: 4px 4px 3px 0 #5a5858;
-    transition: .3s;
+    transition: .5s;
+     &.full {
+      width: 100%;
+      transition: .5s;
+    }
     &:hover {
       transform: translate(3px, 3px);
       transition: .3s;
