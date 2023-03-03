@@ -18,11 +18,12 @@ export default {
         return {
             title: this.note.title, 
             descr: this.note.descr, 
+            edit: this.note.edit
         };
   },
   methods: {
     addNote() {
-      this.$emit("store", {title: this.title, descr: this.descr});
+      this.$emit("store", {title: this.title, descr: this.descr, edit: this.note.edit});
       this.title = ''
       this.descr = ''
     },

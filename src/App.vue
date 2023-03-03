@@ -1,8 +1,8 @@
 <template>
   <div  id="app">
-    <h1>{{title}}</h1>  
-        <errorMessage :errorMessage="errorMessage"/>  
-        <newNote 
+    <h1>{{title}}</h1>
+        <errorMessage :errorMessage="errorMessage"/>
+        <newNote
          :note="note"
           @store="addNote"
         />
@@ -14,7 +14,7 @@
             <svg :class="{ active: !grid}" @click="grid = false" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg>
           </div>
         </div>
-          <notesList 
+          <notesList
             @removeNote="removeNote"
             :notes="notesFilter"
             :grid="grid"
@@ -62,7 +62,8 @@ export default {
       ],
       note: {
         title: '',
-        descr: ''
+        descr: '',
+        edit: false
       }
     }
   },
@@ -83,16 +84,17 @@ export default {
   },
   methods: {
     addNote (note) {
-      let {title, descr} = note
-      
+      let {title, descr, edit} = note
+
         if(title === "") {
             this.errorMessage = 'Title required'
-            return false                                        
+            return false
         }
 
         this.notes.push({
              title,
              descr,
+             edit,
              date: new Date(Date.now()).toLocaleString()
         })
         this.errorMessage = null
@@ -108,7 +110,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
-} 
+}
 ul{
   list-style: none;
   margin: 0;
@@ -174,7 +176,7 @@ button.new__btn {
       transform: translate(3px, 3px);
       transition: .3s;
     }
-} 
+}
 svg {
   transition: .5s;
   margin-right: 10px;
