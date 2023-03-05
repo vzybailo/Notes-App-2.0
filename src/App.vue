@@ -63,7 +63,12 @@ export default {
       note: {
         title: '',
         descr: '',
-        edit: false
+        select: 'hgsdf',
+         priorities: [
+            {alias: 'low', name: 'low'},
+            {alias: 'middle', name: 'middle'},
+            {alias: 'high', name: 'high'}
+        ],
       }
     }
   },
@@ -84,7 +89,8 @@ export default {
   },
   methods: {
     addNote (note) {
-      let {title, descr, edit} = note
+      let {title, descr, edit, select} = note
+      console.log(select)
 
         if(title === "") {
             this.errorMessage = 'Title required'
@@ -94,6 +100,7 @@ export default {
         this.notes.push({
              title,
              descr,
+             select,
              edit,
              date: new Date(Date.now()).toLocaleString()
         })
@@ -136,46 +143,6 @@ h4 {
   width: 850px;
   margin: 0 auto;
   color: #A9A9A9;
-}
-
-.new__note {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    margin-bottom: 40px;
-}
-.new__desc, .new__title {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border: none;
-  outline: none;
-  resize: none;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  padding: 15px;
-  transition: .3s;
-  &:focus::placeholder {
-    color: transparent;
-    transition: .3s;
-  }
-}
-.new__desc {
-  margin-bottom: 25px;
-}
-button.new__btn {
-    width: 50%;
-    margin: auto;
-    border: none;
-    padding: 10px 0;
-    cursor: pointer;
-    border-radius: 10px;
-    text-transform: uppercase;
-    transition: .3s;
-    background-color: #e5e524;
-    &:hover {
-      background-color: rgb(47, 226, 71);
-      transform: translate(3px, 3px);
-      transition: .3s;
-    }
 }
 svg {
   transition: .5s;

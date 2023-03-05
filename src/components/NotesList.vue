@@ -1,6 +1,11 @@
 <template>
     <ul  class="notes__list">
-        <li v-for="(note, index) in notes" :key="index" class="notes__item" :class="{full: !grid}">
+        <li
+            v-for="(note, index) in notes"
+            :key="index"
+            class="notes__item"
+            :class="[`${note.select}`, {full: !grid}]"
+        >
             <div class="notes__header">
                 <div class="notes__title">
                     <h4 @click="editTitle(index, note)" v-if="!note.edit" class="notes__name">{{note.title}}</h4>
@@ -18,7 +23,10 @@
                 <div @click="removeNote(index)" class="notes__delete">x</div>
             </div>
             <div class="notes__desc">{{note.descr}}</div>
-            <div class="notes__date">{{note.date}}</div>
+            <div class="note__footer">
+                <div class="notes__date">{{note.date}}</div>
+                <div class="note__priority">{{note.select}}</div>
+            </div>
         </li>
     </ul>
 </template>
@@ -56,7 +64,7 @@ export default {
         cancelSave(note) {
             note.title = this.cachedTitle
             this.nextNote.edit = false
-        }
+        },
     }
 };
 </script>
@@ -136,4 +144,17 @@ li.notes__item {
         outline: none;
     }
 }
+.note__footer {
+    display: flex;
+    justify-content: space-between;
+}
+  .middle {
+        background-color: rgb(245, 245, 105) !important;
+    }
+    .low {
+        background-color: rgb(97, 221, 97) !important;
+    }
+    .high {
+        background-color: rgb(204, 67, 67) !important;
+    }
 </style>
