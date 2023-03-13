@@ -53,4 +53,7 @@
       color: yellow;
     }
   }
+  .router-link-exact-active {
+    color: yellow;
+  }
 </style>
