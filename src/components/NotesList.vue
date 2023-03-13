@@ -41,11 +41,13 @@ export default {
       grid: {
         type: Boolean,
         required: true
-      }
+      },
     },
     data() {
         return {
             cachedTitle: '',
+            updateNote: this.notes,
+            num: 1
         }
     },
     methods: {
@@ -65,6 +67,9 @@ export default {
             note.title = this.cachedTitle
             this.nextNote.edit = false
         },
+        addNum() {
+            this.$emit('addNum', this.num)
+        }
     }
 };
 </script>
