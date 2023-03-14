@@ -2,7 +2,7 @@
   <div  id="app">
       <header class="header">
         <div class="container">
-          <a href="" class="header__logo">Vue v2</a>
+          <router-link to="/" class="header__logo"><img src="./img/vue.png" alt=""></router-link>
           <ul class="nav__list">
             <li class="nav__item">
               <router-link v-for="link of links" :key="link.title" :title="link.title" :to="link.url" class="nav__link">{{link.title}}</router-link>
@@ -20,8 +20,9 @@
       return {
         links: [
           {title: 'Home', url: '/'},
-          {title: 'NotesApp', url: '/notesapp'}
-        ]
+          {title: 'NotesApp', url: '/notesapp'},
+          {title: 'Modals', url: '/modals'}
+        ],
       }
     }
   }
@@ -36,13 +37,11 @@
     .container {
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
   }
-  a.header__logo {
-    text-decoration: none;
-    color: #578f57;
-    font-size: 25px;
-    font-weight: bold;
+.header__logo img {
+    width: 50px;
   }
   .nav__link {
     color: #fff;

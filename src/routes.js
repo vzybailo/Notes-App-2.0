@@ -6,8 +6,11 @@ Vue.use(Router)
 // pages
 import HomePage from './pages/HomePage'
 import NotesApp from './pages/NotesApp'
+import NotFound from './pages/NotFound'
+import ModalBlock from './pages/ModalBlock'
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '',
@@ -18,6 +21,16 @@ export default new Router({
             path: '/notesapp',
             name: 'notesapp',
             component: NotesApp
+        },
+        {
+            path: '/modals',
+            name: 'modalblock',
+            component: ModalBlock
+        },
+        {
+            path: '*',
+            name: 'notFound',
+            component: NotFound
         }
     ]
 })

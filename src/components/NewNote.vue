@@ -3,7 +3,7 @@
         <input v-model="title"  type="text" class="new__title" placeholder="Write the title">
         <textarea v-model="descr" class="new__desc" cols="60" rows="5" placeholder="Write the description"></textarea>
         <select v-model="select" class="new__select">
-          <option disabled value="">Choose priority </option>
+          <option selected disabled >Choose priority </option>
           <option
               v-for='(priority, index) in note.priorities'
               :key="index"
