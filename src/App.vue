@@ -19,7 +19,7 @@
     data () {
       return {
         links: [
-          {title: 'Home', url: '/'},
+          {title: 'About', url: '/'},
           {title: 'NotesApp', url: '/notesapp'},
           {title: 'Modals', url: '/modals'}
         ],

@@ -18,7 +18,7 @@
             </modalView>
             <!-- second form -->
             <button class="btn" @click="modalSecond.show = !modalSecond.show">Second modal with form</button>
-            <modalView 
+            <modalView
                 @close = "modalSecond.show = false"
                 v-show="modalSecond.show"
                 title="Modal with form"
@@ -29,13 +29,14 @@
                         <input type="text" v-model="modalSecond.name">
                         <label for="">Email</label>
                         <input type="email" v-model="modalSecond.email">
-                        <button class="btn">Submit</button>
+                        <button class="btn" @click="modalValidate = !modalValidate">Submit</button>
                     </form>
                 </div>
             </modalView>
             <!-- modal with validate -->
             <button class="btn" @click="modalValidate = !modalValidate">Second modal with form with validate</button>
-            <modalValidate @close="closeFirst" v-if="modalValidate"></modalValidate>
+            <modalValidate @close="modalValidate = false" v-if="modalValidate">
+            </modalValidate>
         </div>
     </div>
 </template>
@@ -54,6 +55,11 @@ export default {
             titleFirst: 'Modal',
             modalFirst: false,
             modalSecond: {
+                show: false,
+                name: '',
+                email: ''
+            },
+             modalThird: {
                 show: false,
                 name: '',
                 email: ''
