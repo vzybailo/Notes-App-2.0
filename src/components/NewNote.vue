@@ -1,9 +1,9 @@
 <template>
     <div class="new__note">
-        <input v-model="title"  type="text" class="new__title" placeholder="Write the title">
-        <textarea v-model="descr" class="new__desc" cols="60" rows="5" placeholder="Write the description"></textarea>
-        <select v-model="select" class="new__select">
-          <option selected disabled >Choose priority </option>
+        <input v-model="note.title"  type="text" class="new__title" placeholder="Write the title">
+        <textarea v-model="note.descr" class="new__desc" cols="60" rows="5" placeholder="Write the description"></textarea>
+        <select class="new__select">
+          <option disabled selected>Choose priority </option>
           <option
               v-for='(priority, index) in note.priorities'
               :key="index"
@@ -11,33 +11,35 @@
             {{ priority.name }}
           </option>
         </select>
-        <button @click="addNote" class="new__btn">add note</button>
+        <button @click="setNote" class="new__btn">add note</button>
     </div>
 </template>
 
 <script>
 export default {
-    props: {
-      note: {
-        type: Object,
-        required: true
-      }
-    },
     data() {
         return {
-            title: this.note.title,
-            descr: this.note.descr,
-            edit: this.note.edit,
-            select: this.select
+            note: {
+              title: '',
+              descr: '',
+              priorities: [ ],
+            }
         };
   },
+  computed: {
+    getNote() {
+      return this.$store.getters.getNote
+  }
+  },
   methods: {
-    addNote() {
-      this.$emit("store", {title: this.title, descr: this.descr, edit: this.note.edit, select: this.select});
-      this.title = ''
-      this.descr = ''
-      this.select = ''
-    },
+    setNote() {
+      this.$store.dispatch('setNote', this.note)
+      console.log(this.note)
+      this.note = ""
+    }
+  },
+  created() {
+    this.note = this.$store.getters.getNote
   },
 };
 </script>

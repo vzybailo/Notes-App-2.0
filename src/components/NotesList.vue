@@ -34,10 +34,6 @@
 <script>
 export default {
     props: {
-      notes: {
-        type: Array,
-        required: true
-      },
       grid: {
         type: Boolean,
         required: true
@@ -47,12 +43,16 @@ export default {
         return {
             cachedTitle: '',
             updateNote: this.notes,
-            num: 1
+            num: 1,
+            notes: null
         }
+    },
+    created() {
+        this.notes = this.$store.getters.getNotes
     },
     methods: {
         removeNote(index) {
-            this.$emit('removeNote', index)
+            this.notes.splice(index, 1)
         },
         editTitle(index, note) {
             this.noteIndex = index;

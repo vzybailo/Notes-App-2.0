@@ -1,11 +1,9 @@
 <template>
     <div class="container">
           <div class="notes">
-            <h1>{{title}}</h1>
+            <h1>{{getTitle}}</h1>
                 <errorMessage :errorMessage="errorMessage"/>
                 <newNote
-                :note="note"
-                @store="addNote"
                 />
                 <div class="notes__preheader">
                 <h2>
@@ -17,8 +15,7 @@
                     <svg :class="{ active: !grid}" @click="grid = false" style="cursor: pointer;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg>
                 </div>
                 </div>
-                <notesList  
-                    @removeNote="removeNote"
+                <notesList
                     :notes="notesFilter"
                     :grid="grid"
                 />
@@ -27,10 +24,10 @@
 </template>
 
 <script>
-import errorMessage from '@/components/ErrorMessage.vue'
-import newNote from '@/components/NewNote.vue'
-import notesList from '@/components/NotesList.vue'
-import searchNote from '@/components/SearchNote.vue'
+import errorMessage from './../components/ErrorMessage.vue'
+import newNote from './../components/NewNote.vue'
+import notesList from './../components/NotesList.vue'
+import searchNote from './../components/SearchNote.vue'
 
 export default {
   components: {
@@ -38,43 +35,12 @@ export default {
   },
   data () {
     return {
-      title: 'Notes',
       titleNotes: 'Notes list',
       placeholder: '',
       search: '',
       grid: true,
       errorMessage: null,
       num: 0,
-      notes: [
-          {
-              title: "First note",
-              descr: 'desc about first note',
-              date: new Date(Date.now()).toLocaleString(),
-              edit: false
-          },
-          {
-              title: "Second note",
-              descr: 'desc about first note',
-              date: new Date(Date.now()).toLocaleString(),
-              edit: false
-          },
-          {
-              title: "Third note",
-              descr: 'desc about first note',
-              date: new Date(Date.now()).toLocaleString(),
-              edit: false
-          }
-      ],
-      note: {
-        title: '',
-        descr: '',
-        select: 'hgsdf',
-         priorities: [
-            {alias: 'low', name: 'low'},
-            {alias: 'middle', name: 'middle'},
-            {alias: 'high', name: 'high'}
-        ],
-      }
     }
   },
   computed: {
@@ -90,30 +56,30 @@ export default {
           }
         })
         return array
+    },
+    getTitle() {
+      return this.$store.getters.getTitle
     }
   },
   methods: {
-    addNote (note) {
-      let {title, descr, edit, select} = note
-      console.log(title)
+    // addNote (note) {
+    //   let {title, descr, edit, select} = note
+    //   console.log(title)
 
-        if(title === "") {
-            this.errorMessage = 'Title required'
-            return false
-        }
+    //     if(title === "") {
+    //         this.errorMessage = 'Title required'
+    //         return false
+    //     }
 
-        this.notes.push({
-             title,
-             descr,
-             select,
-             edit,
-             date: new Date(Date.now()).toLocaleString()
-        })
-        this.errorMessage = null
-    },
-    removeNote(index) {
-      this.notes.splice(index, 1)
-    },
+    //     this.notes.push({
+    //          title,
+    //          descr,
+    //          select,
+    //          edit,
+    //          date: new Date(Date.now()).toLocaleString()
+    //     })
+    //     this.errorMessage = null
+    // },
     moreSize() {
       console.log(this.num)
     }
@@ -125,6 +91,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
+  background-color: #1f2029;
 }
 ul{
   list-style: none;
@@ -140,8 +107,6 @@ h4 {
   flex-direction: column;
   font-family: sans-serif;
   position: relative;
-  height: 100vh;
-  background-color: #1f2029;
   width: 100%;
 }
 #app {

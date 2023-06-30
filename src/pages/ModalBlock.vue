@@ -4,7 +4,7 @@
         <div class="modals__block">
             <!-- first form -->
             <button class="btn" @click="modalFirst = !modalFirst">Basic modal</button>
-            <modalView 
+            <modalView
                 @close = "closeFirst"
                 v-show="modalFirst"
                 :modalFirst = "modalFirst"
@@ -13,11 +13,11 @@
                 <div slot="body">
                     <h3>{{title}}</h3>
                     <p>It is basic modal</p>
-                    <button class="btn" @click="modalFirst = !modalFirst">well done!</button>
+                    <button class="btn btn__form" @click="modalFirst = !modalFirst">well done!</button>
                 </div>
             </modalView>
             <!-- second form -->
-            <button class="btn" @click="modalSecond.show = !modalSecond.show">Second modal with form</button>
+            <button class="btn" @click="modalSecond.show = !modalSecond.show">Modal with form</button>
             <modalView
                 @close = "modalSecond.show = false"
                 v-show="modalSecond.show"
@@ -34,16 +34,18 @@
                 </div>
             </modalView>
             <!-- modal with validate -->
-            <button class="btn" @click="modalValidate = !modalValidate">Second modal with form with validate</button>
-            <modalValidate @close="modalValidate = false" v-if="modalValidate">
-            </modalValidate>
+            <button class="btn" @click="modalValidate = !modalValidate">Modal with form + validate</button>
+            <modalValidate
+                @close="modalValidate = !modalValidate"
+                v-if="modalValidate"
+            />
         </div>
     </div>
 </template>
 
 <script>
-import modalView from '@/components/UI/ModalView.vue'
-import modalValidate from '@/components/ModalValidate.vue'
+import modalView from './../components/UI/ModalView.vue'
+import modalValidate from './../components/ModalValidate.vue'
 
 export default {
     components: {
@@ -59,18 +61,12 @@ export default {
                 name: '',
                 email: ''
             },
-             modalThird: {
-                show: false,
-                name: '',
-                email: ''
-            },
             modalValidate: false
         }
     },
     methods: {
         closeFirst() {
             this.modalFirst = false
-            this.modalValidate = false
         },
         submitSecondForm() {
             console.log({
@@ -80,7 +76,7 @@ export default {
             this.modalSecond.name = "",
             this.modalSecond.email = "",
             this.modalSecond.show = false
-        }
+        },
     }
 }
 </script>
@@ -113,11 +109,15 @@ export default {
         padding: 5px 15px;
         border-radius: 5px;
         outline: none;
-        border: 1px solid gray;
+        border: 1px solid #e7e4e4;
         margin-bottom: 10px;
     }
     .btn {
         margin-right: 0;
+        margin-top: 20px;
     }
+}
+.btn__form {
+    margin-right: 0;
 }
 </style>

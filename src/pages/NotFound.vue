@@ -2,7 +2,7 @@
     <div class="notFound">
         <h1>Oooops! Page not found! </h1>
         <p>Go to <router-link class="notFound__link" to="/">main page</router-link></p>
-        <img class="notFound__img" src="../img/404.webp" alt="">
+        <img class="notFound__img" src="../assets/img/404.webp" alt="">
     </div>
 </template>
 

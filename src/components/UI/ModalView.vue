@@ -22,11 +22,6 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-     
-    }
-  },
   mounted () {
     document.body.addEventListener('keyup', e => {
       if (e.keyCode === 27) {
@@ -70,7 +65,8 @@ export default {
 
 .modal-content {
   position: relative;
-  max-width: 600px;
+  max-width: 350px;
+  width: 100%;
   padding: 20px 18px;
   background-color: #fff;
   border: 1px solid #dcdfe6;
@@ -83,16 +79,20 @@ export default {
   }
 }
 .modal-header {
-  display: flex;
-  align-self: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   padding-bottom: 20px;
   span {
     font-size: 24px;
   }
   .button-close {
     cursor: pointer;
+    text-align: right;
   }
+}
+span.modal-title {
+    grid-column: 2/3;
+    text-align: center;
 }
 .modal-body {
   text-align: center;
